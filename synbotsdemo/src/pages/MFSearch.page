@@ -1,0 +1,121 @@
+<apex:page controller="MFSearchController" sidebar="false">
+
+  <apex:form >
+  <apex:pageMessages id="errors" />
+
+  <apex:pageBlock title="Find Me A Customer!" mode="edit">
+
+  <table width="100%" border="0">
+  <tr>  
+    <td width="200" valign="top">
+
+      <apex:pageBlock title="Parameters" mode="edit" id="criteria">
+
+      <script type="text/javascript">
+      function doSearch() {
+        searchServer(
+          document.getElementById("firstName").value,
+          document.getElementById("KrishLightning__Estimated_Annual_Volume_D_c__c").value,
+          document.getElementById("accountName").value
+      <!--    document.getElementById("technology").options[document.getElementById("technology").selectedIndex].value -->
+          );
+      }
+      </script> 
+
+      <apex:actionFunction name="searchServer" action="{!runSearch}" rerender="results,debug,errors">
+          <apex:param name="firstName" value="" />
+          <apex:param name="KrishLightning__Estimated_Annual_Volume_D_c__c" value="" />
+          <apex:param name="accountName" value="" />
+         <!-- <apex:param name="technology" value="" />-->
+      </apex:actionFunction>
+
+      <table cellpadding="2" cellspacing="2">
+      <tr>
+        <td style="font-weight:bold;">First Name<br/>
+        <input type="text" id="firstName" onkeyup="doSearch();"/>
+        </td>
+      </tr>
+      <tr>
+        <td style="font-weight:bold;">Estimated Annual Volume<br/>
+        <input type="text" id="KrishLightning__Estimated_Annual_Volume_D_c__c" onkeyup="doSearch();"/>
+        </td>
+      </tr>
+      <tr>
+        <td style="font-weight:bold;">Business Legal Name<br/>
+        <input type="text" id="accountName" onkeyup="doSearch();"/>
+        </td>
+      </tr>
+    <!--  <tr>
+        <td style="font-weight:bold;">Interested Technologies<br/>
+          <select id="technology" onchange="doSearch();">
+            <option value=""></option>
+            <apex:repeat value="{!technologies}" var="tech">
+              <option value="{!tech}">{!tech}</option>
+            </apex:repeat>
+          </select>
+        </td>
+      </tr>-->
+      </table>
+
+      </apex:pageBlock>
+
+    </td>
+    <td valign="top">
+
+    <apex:pageBlock mode="edit" id="results">
+
+        <apex:pageBlockTable value="{!contacts}" var="KrishLightning__Account_Setup_Automation_c__x">
+
+            <apex:column >
+                <apex:facet name="header">
+                    <apex:commandLink value="First Name" action="{!toggleSort}" rerender="results,debug">
+                        <apex:param name="sortField" value="KrishLightning__First_Name_SO1_c__c" assignTo="{!sortField}"/>
+                    </apex:commandLink>
+                </apex:facet>
+                <apex:outputField value="{!KrishLightning__Account_Setup_Automation_c__x.First_Name_SO1_c__c}"/>
+            </apex:column>
+
+            <apex:column >
+                <apex:facet name="header">
+                    <apex:commandLink value="Estimated Annual Volume" action="{!toggleSort}" rerender="results,debug">
+                        <apex:param name="sortField" value="KrishLightning__Estimated_Annual_Volume_D_c__c" assignTo="{!sortField}"/>
+                    </apex:commandLink>
+                </apex:facet>
+                <apex:outputField value="{!KrishLightning__Account_Setup_Automation_c__x.Estimated_Annual_Volume_D_c__c}"/>
+            </apex:column>
+
+            <apex:column >
+                <apex:facet name="header">
+                    <apex:commandLink value="Business Legal Name" action="{!toggleSort}" rerender="results,debug">
+                        <apex:param name="sortField" value="KrishLightning__Business_Legal_Name_BP_c__c" assignTo="{!sortField}"/>
+                    </apex:commandLink>
+                </apex:facet>
+                <apex:outputField value="{!KrishLightning__Account_Setup_Automation_c__x.Business_Legal_Name_BP_c__c}"/>
+            </apex:column>
+
+          <!--  <apex:column >
+                <apex:facet name="header">
+                    <apex:commandLink value="Technologies" action="{!toggleSort}" rerender="results,debug">
+                        <apex:param name="sortField" value="interested_technologies__c" assignTo="{!sortField}"/>
+                    </apex:commandLink>
+                </apex:facet>
+                <apex:outputField value="{!contact.Interested_Technologies__c}"/>
+            </apex:column>-->
+
+        </apex:pageBlockTable>
+
+    </apex:pageBlock>
+
+    </td>
+  </tr>
+  </table>
+
+  <apex:pageBlock title="Debug - SOQL" id="debug">
+      <apex:outputText value="{!debugSoql}" />           
+  </apex:pageBlock>    
+
+  </apex:pageBlock>
+
+  </apex:form>
+
+</apex:page>
